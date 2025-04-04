@@ -30,7 +30,7 @@ export default function UploadPage() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <h2 className="text-2xl font-bold mb-4">Upload an Image for Analysis</h2>
       <input type="file" onChange={(e) => setFile(e.target.files[0])} className="mb-4" />
-      <button onClick={handleUpload} className="bg-blue-500 text-white px-4 py-2 rounded">
+      <button onClick={handleUpload} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
         Upload & Analyze
       </button>
       {result && (

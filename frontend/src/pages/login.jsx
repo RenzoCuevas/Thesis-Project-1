@@ -24,12 +24,14 @@ export default function Login() {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4">Login</h2>
+      <form onSubmit={handleSubmit} className="bg-white p-8 w-1/3 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4 text-center">Login your Account</h2>
         {error && <p className="text-red-500">{error}</p>}
         <input type="email" name="email" placeholder="Email" onChange={handleChange} className="w-full p-2 mb-2 border rounded" required />
         <input type="password" name="password" placeholder="Password" onChange={handleChange} className="w-full p-2 mb-4 border rounded" required />
-        <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">Login</button>
+        <p className="text-center">
+        <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 w-40">Login</button>
+        </p>
       </form>
     </div>
   );

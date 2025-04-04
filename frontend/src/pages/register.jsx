@@ -28,12 +28,12 @@ export default function Register() {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-100">
         <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-4">Register</h2>
+          <h2 className="text-2xl font-bold mb-4 text-center">Register an Account</h2>
           {error && <p className="text-red-500">{error}</p>}
           <input type="text" name="name" placeholder="Name" onChange={handleChange} className="w-full p-2 mb-2 border rounded" required />
           <input type="email" name="email" placeholder="Email" onChange={handleChange} className="w-full p-2 mb-2 border rounded" required />
           <input type="password" name="password" placeholder="Password" onChange={handleChange} className="w-full p-2 mb-4 border rounded" required />
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Register</button>
+         <p className="text-center"><button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 w-40">Register</button></p>
         </form>
       </div>
     );

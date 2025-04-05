@@ -31,6 +31,11 @@ export default function AuthProvider({ children }) {
     }
   };
 
+  const loginWithToken = async (token) => {
+    localStorage.setItem("token", token);
+    await fetchUserData(token); // <- now this will fetch the user
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
@@ -38,7 +43,7 @@ export default function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, logout }}>
+    <AuthContext.Provider value={{ user, setUser, logout, loginWithToken }}>
       {children}
     </AuthContext.Provider>
   );

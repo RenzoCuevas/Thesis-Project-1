@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { loginUser } from "../../api/authApi";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { loginWithToken } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,8 +17,8 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await loginUser(formData);
-      localStorage.setItem("token", res.token); // Store token in localStorage
-      navigate("/dashboard"); // Redirect to Dashboard
+      await loginWithToken(res.token); // <- updates user from token
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message);
     }

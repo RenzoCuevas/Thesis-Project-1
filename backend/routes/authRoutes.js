@@ -21,14 +21,14 @@ router.post(
     const { name, email, password, role } = req.body;
 
     try {
-      // Check if user exists
+
       const [existingUser] = await mysql.promise().query("SELECT * FROM users WHERE email = ?", [email]);
       if (existingUser.length > 0) return res.status(400).json({ message: "Email already exists" });
 
-      // Hash password
+
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Insert new user
+
       await mysql.promise().query("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)", [
         name,
         email,
@@ -43,7 +43,6 @@ router.post(
   }
 );
 
-// 🔑 User Login
 router.post(
   "/login",
   [
@@ -60,11 +59,9 @@ router.post(
       const [user] = await mysql.promise().query("SELECT * FROM users WHERE email = ?", [email]);
       if (user.length === 0) return res.status(401).json({ message: "Invalid email or password" });
 
-      // Compare password
       const isMatch = await bcrypt.compare(password, user[0].password);
       if (!isMatch) return res.status(401).json({ message: "Invalid email or password" });
 
-      // Generate JWT Token
       const token = jwt.sign({ id: user[0].id, role: user[0].role }, JWT_SECRET, { expiresIn: "1h" });
 
       res.json({ message: "Login successful", token });

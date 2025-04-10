@@ -13,11 +13,7 @@ export const registerUser = async (userData) => {
 };
 
 // Login User
-export const loginUser = async (credentials) => {
-  try {
-    const response = await axios.post(`${API_URL}/login`, credentials);
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
-  }
+export const loginUser = async (formData) => {
+  const response = await axios.post("http://localhost:5000/api/auth/login", formData);
+  return response.data; // Ensure this returns the token
 };

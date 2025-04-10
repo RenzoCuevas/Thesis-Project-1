@@ -7,14 +7,14 @@ import cors from "cors";
 import dotenv from "dotenv";
 import db from "./db.js";
 import authRoutes from "./routes/authRoutes.js";
-//import discussionRoutes from "./routes/discussionRoutes.js";
+import discussionRoutes from "./routes/discussionRoutes.js";
 
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-//app.use("/api/discussions", discussionRoutes);
+app.use("/api/discussions", discussionRoutes);
 // Multer for handling image uploads
 const upload = multer({ dest: "uploads/" });
 

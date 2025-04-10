@@ -1,16 +1,29 @@
-// components/PostForm.jsx
-import { useState } from "react";
+import { useState, useContext } from "react";
+import axios from "axios";
+import { AuthContext } from "../context/authContext";
 
-export default function PostForm({ onSubmit }) {
+export default function PostForm({ onNewPost }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const { user } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title || !content) return;
-    onSubmit({ title, content });
-    setTitle("");
-    setContent("");
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:5000/api/discussions",
+        { title, content },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      onNewPost(response.data); // Pass the new post to the parent
+      setTitle("");
+      setContent("");
+    } catch (error) {
+      console.error("Error creating discussion:", error);
+    }
   };
 
   return (

@@ -1,15 +1,17 @@
-//discussionRoutes
-const express = require("express");
-const router = express.Router();
-const {
+import express from "express";
+import {
   getDiscussions,
   createDiscussion,
-  addComment
-} = require("../controllers/discussionController");
+  addCommentToDiscussion,
+  getComments,
+} from "../controllers/discussionController.js";
+import { authenticateUser } from "../middleware/authMiddleware.js";
+
+const router = express.Router();
 
 router.get("/", getDiscussions);
-router.post("/", createDiscussion);
-router.post("/:id/comments", addComment);
+router.post("/", authenticateUser, createDiscussion); // Require authentication
+router.get("/:id/comments", getComments);
+router.post("/:id/comments", authenticateUser, addCommentToDiscussion); // Require authentication
 
-
-export default discussionRoutes;
+export default router;

@@ -17,7 +17,8 @@ export default function Login() {
     e.preventDefault();
     try {
       const res = await loginUser(formData);
-      await loginWithToken(res.token); // <- updates user from token
+      localStorage.setItem("token", res.token); // Store the token in local storage
+      await loginWithToken(res.token); // Update the user context
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);

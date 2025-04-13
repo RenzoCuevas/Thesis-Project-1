@@ -10,7 +10,7 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      fetchUserData(token);
+      fetchUserData(token); // Fetch user data on app load if token exists
     }
   }, []);
 
@@ -21,25 +21,25 @@ export default function AuthProvider({ children }) {
       });
       const data = await response.json();
       if (data.user) {
-        setUser(data.user);
+        setUser(data.user); // Set the user data from the backend
       } else {
-        logout();
+        logout(); // If no user data, log out
       }
     } catch (error) {
       console.error("Error fetching user:", error);
-      logout();
+      logout(); // Log out on error
     }
   };
 
   const loginWithToken = async (token) => {
-    localStorage.setItem("token", token);
-    await fetchUserData(token); // <- now this will fetch the user
+    localStorage.setItem("token", token); // Save the token in local storage
+    await fetchUserData(token); // Fetch user data after login
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
-    navigate("/login");
+    localStorage.removeItem("token"); // Remove the token
+    setUser(null); // Clear the user state
+    navigate("/login"); // Redirect to login page
   };
 
   return (

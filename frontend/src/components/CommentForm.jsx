@@ -13,8 +13,8 @@ export default function CommentForm({ onSubmit }) {
       }
 
       await onSubmit({ text }); // Pass the comment text to the parent handler
-      setText(""); // Clear the input field
-      setError(""); // Clear any previous errors
+      setText(""); 
+      setError(""); 
     } catch (err) {
       setError("Failed to post comment. Please try again."); // Set error if the request fails
       console.error("Error posting comment:", err);

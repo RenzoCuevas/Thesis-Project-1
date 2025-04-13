@@ -1,0 +1,173 @@
+{
+    "mouse": {
+      "name": "Mouse",
+      "description": "A computer mouse is a hand-held pointing device that detects two-dimensional motion relative to a surface.",
+      "inventor": "Douglas Engelbart",
+      "uses": "Used to interact with graphical user interfaces on computers.",
+      "madeIn": "United States",
+      "history": "Invented in 1964 by Douglas Engelbart at Stanford Research Institute.",
+      "link": "https://en.wikipedia.org/wiki/Mouse"
+    },
+    "keyboard": {
+      "name": "Keyboard",
+      "description": "A keyboard is an input device used to type text and interact with computers.",
+      "inventor": "Christopher Latham Sholes",
+      "uses": "Used for typing and interacting with software.",
+      "madeIn": "United States",
+      "history": "Invented in the 1860s as part of the typewriter.",
+      "link": "https://en.wikipedia.org/wiki/Keyboard"
+    },
+    "monitor": {
+      "name": "Monitor",
+      "description": "A monitor is an output device that displays information in visual form.",
+      "inventor": "Karl Ferdinand Braun",
+      "uses": "Used to display graphical and textual information from a computer.",
+      "madeIn": "Germany",
+      "history": "The first CRT monitor was invented in 1897 by Karl Ferdinand Braun.",
+      "link": "https://en.wikipedia.org/wiki/Computer_monitor"
+    },
+    "cpu": {
+      "name": "CPU",
+      "description": "The CPU (Central Processing Unit) is the brain of the computer, responsible for executing instructions.",
+      "inventor": "Federico Faggin",
+      "uses": "Processes instructions and performs calculations for computer operations.",
+      "madeIn": "United States",
+      "history": "The first microprocessor, the Intel 4004, was invented in 1971 by Federico Faggin and his team.",
+      "link": "https://en.wikipedia.org/wiki/Central_processing_unit"
+    },
+    "printer": {
+      "name": "Printer",
+      "description": "A printer is a peripheral device that produces a hard copy of digital documents.",
+      "inventor": "Chester Carlson",
+      "uses": "Used to print documents, images, and other digital content onto paper.",
+      "madeIn": "United States",
+      "history": "The first xerographic printer was invented in 1938 by Chester Carlson.",
+      "link": "https://en.wikipedia.org/wiki/Printer_(computing)"
+    },
+    "scanner": {
+      "name": "Scanner",
+      "description": "A scanner is a device that captures images from physical documents and converts them into digital formats.",
+      "inventor": "Ray Kurzweil",
+      "uses": "Used to digitize physical documents, photos, and other media.",
+      "madeIn": "United States",
+      "history": "The first image scanner was developed in 1957 by Russell A. Kirsch.",
+      "link": "https://en.wikipedia.org/wiki/Image_scanner"
+    },
+    "motherboard": {
+      "name": "Motherboard",
+      "description": "The motherboard is the main circuit board that connects all components of a computer.",
+      "inventor": "IBM Engineers",
+      "uses": "Serves as the central hub for communication between the CPU, RAM, storage, and peripherals.",
+      "madeIn": "United States",
+      "history": "The first motherboard was introduced in 1981 with the IBM Personal Computer.",
+      "link": "https://en.wikipedia.org/wiki/Motherboard"
+    },
+    "hard_drive": {
+      "name": "Hard Drive",
+      "description": "A hard drive is a data storage device used to store and retrieve digital information.",
+      "inventor": "Reynold B. Johnson",
+      "uses": "Used to store operating systems, software, and user data.",
+      "madeIn": "United States",
+      "history": "The first hard drive was introduced by IBM in 1956 and was called the IBM 305 RAMAC.",
+      "link": "https://en.wikipedia.org/wiki/Hard_disk_drive"
+    },
+    "ram": {
+      "name": "RAM",
+      "description": "RAM (Random Access Memory) is a type of computer memory that stores data temporarily for quick access.",
+      "inventor": "Robert Dennard",
+      "uses": "Used to store data and instructions that the CPU needs to access quickly.",
+      "madeIn": "United States",
+      "history": "The first DRAM (Dynamic RAM) was invented in 1968 by Robert Dennard.",
+      "link": "https://en.wikipedia.org/wiki/Random-access_memory"
+    },
+    "power_supply": {
+      "name": "Power Supply",
+      "description": "The power supply unit (PSU) converts electrical power from an outlet into usable power for a computer.",
+      "inventor": "IBM Engineers",
+      "uses": "Provides power to all components of a computer.",
+      "madeIn": "United States",
+      "history": "The first power supply units were developed for early mainframe computers in the 1950s.",
+      "link": "https://en.wikipedia.org/wiki/Power_supply_unit_(computer)"
+    },
+    "graphics_card": {
+      "name": "Graphics Card",
+      "description": "A graphics card is a hardware component that renders images, videos, and animations.",
+      "inventor": "IBM Engineers",
+      "uses": "Used to process and render graphical data for display on a monitor.",
+      "madeIn": "United States",
+      "history": "The first graphics card was introduced in 1981 with the IBM Monochrome Display Adapter.",
+      "link": "https://en.wikipedia.org/wiki/Graphics_card"
+    },
+    "soldering_iron": {
+      "name": "Soldering Iron",
+      "description": "A soldering iron is a hand tool used to heat solder and join electronic components.",
+      "inventor": "Carl E. Weller",
+      "uses": "Used in electronics to solder components onto circuit boards.",
+      "madeIn": "United States",
+      "history": "The modern electric soldering iron was invented in 1941 by Carl E. Weller.",
+      "link": "https://en.wikipedia.org/wiki/Soldering_iron"
+    },
+    "multimeter": {
+      "name": "Multimeter",
+      "description": "A multimeter is a measuring instrument used to measure voltage, current, and resistance.",
+      "inventor": "Donald Macadie",
+      "uses": "Used in electronics and electrical work to diagnose and troubleshoot circuits.",
+      "madeIn": "United Kingdom",
+      "history": "Invented in the 1920s by Donald Macadie, who combined multiple measurement tools into one device.",
+      "link": "https://en.wikipedia.org/wiki/Multimeter"
+    },
+    "lathe_machine": {
+      "name": "Lathe Machine",
+      "description": "A lathe is a machine tool that rotates a workpiece to perform various operations such as cutting, sanding, and drilling.",
+      "inventor": "Ancient Egyptians",
+      "uses": "Used in woodworking, metalworking, and manufacturing to shape materials.",
+      "madeIn": "Egypt",
+      "history": "The earliest lathes were developed in ancient Egypt around 1300 BC.",
+      "link": "https://en.wikipedia.org/wiki/Lathe"
+    },
+    "drill_press": {
+      "name": "Drill Press",
+      "description": "A drill press is a stationary machine used to drill precise holes in materials.",
+      "inventor": "Arthur James Arnot",
+      "uses": "Used in woodworking, metalworking, and construction for drilling holes.",
+      "madeIn": "Australia",
+      "history": "The first electric drill was patented in 1889 by Arthur James Arnot and William Blanch Brain.",
+      "link": "https://en.wikipedia.org/wiki/Drill_press"
+    },
+    "welding_machine": {
+      "name": "Welding Machine",
+      "description": "A welding machine is a device used to join materials, usually metals or thermoplastics, by applying heat.",
+      "inventor": "Nikolay Benardos",
+      "uses": "Used in construction, manufacturing, and repair work to weld materials together.",
+      "madeIn": "Russia",
+      "history": "The first arc welding process was developed in 1881 by Nikolay Benardos.",
+      "link": "https://en.wikipedia.org/wiki/Welding"
+    },
+    "sewing_machine": {
+      "name": "Sewing Machine",
+      "description": "A sewing machine is a device used to stitch fabric and other materials together with thread.",
+      "inventor": "Elias Howe",
+      "uses": "Used in garment production, tailoring, and crafting.",
+      "madeIn": "United States",
+      "history": "The first practical sewing machine was invented in 1846 by Elias Howe.",
+      "link": "https://en.wikipedia.org/wiki/Sewing_machine"
+    },
+    "hammer": {
+      "name": "Hammer",
+      "description": "A hammer is a hand tool used to deliver impact force to objects like nails or chisels.",
+      "inventor": "Prehistoric Humans",
+      "uses": "Used in construction, carpentry, and metalworking.",
+      "madeIn": "Worldwide",
+      "history": "The hammer has been used since prehistoric times, with early versions made of stone.",
+      "link": "https://en.wikipedia.org/wiki/Hammer"
+    },
+    "screwdriver": {
+      "name": "Screwdriver",
+      "description": "A screwdriver is a hand tool used to turn screws.",
+      "inventor": "Unknown",
+      "uses": "Used in construction, electronics, and mechanical work to fasten or loosen screws.",
+      "madeIn": "France",
+      "history": "The first screwdrivers appeared in the late Middle Ages, around the 15th century.",
+      "link": "https://en.wikipedia.org/wiki/Screwdriver"
+    }
+}

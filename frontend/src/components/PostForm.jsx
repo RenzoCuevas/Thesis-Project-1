@@ -18,7 +18,7 @@ export default function PostForm({ onNewPost }) {
         { title, content },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      onNewPost(response.data); // Pass the new post to the parent
+      onNewPost(response.data);
       setTitle("");
       setContent("");
     } catch (error) {

@@ -5,25 +5,17 @@ import FormData from "form-data";
 import fs from "fs";
 import cors from "cors";
 import dotenv from "dotenv";
-import db from "./db.js";
+import app from "./app.js"; // Importing app from app.js
 import authRoutes from "./routes/authRoutes.js";
 import discussionRoutes from "./routes/discussionRoutes.js";
 
-
 dotenv.config();
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use("/api/discussions", discussionRoutes);
+
 // Multer for handling image uploads
 const upload = multer({ dest: "uploads/" });
 
 // Authentication Routes
 app.use("/api/auth", authRoutes);
-
-app.get("/", (req, res) => {
-  res.send("LMS Backend is Running...");
-});
 
 // Image Analysis Route
 app.post("/api/analyze-image", upload.single("file"), async (req, res) => {
@@ -46,6 +38,7 @@ app.post("/api/analyze-image", upload.single("file"), async (req, res) => {
 
 // Start Server
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

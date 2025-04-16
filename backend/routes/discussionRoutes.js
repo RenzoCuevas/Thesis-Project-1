@@ -1,4 +1,4 @@
-import express from "express"; // Import express
+import express from "express";
 import {
   getDiscussions,
   createDiscussion,
@@ -7,13 +7,12 @@ import {
   addCommentToDiscussion,
   editComment,
   deleteComment,
-  uploadFile,
-  getCommentsByDiscussionId, // Import the controller for fetching comments
+  getCommentsByDiscussionId,
+  getDiscussionById, // Import the missing function
 } from "../controllers/discussionController.js";
 import { authenticateUser } from "../middleware/authMiddleware.js";
-import multer from "multer";
 
-const router = express.Router(); // Initialize the router
+const router = express.Router();
 
 // Routes
 router.get("/", getDiscussions); // Get all discussions
@@ -24,6 +23,6 @@ router.get("/:id/comments", getCommentsByDiscussionId); // Fetch comments for a 
 router.post("/:id/comments", authenticateUser, addCommentToDiscussion); // Add a comment to a discussion
 router.put("/comments/:id", authenticateUser, editComment); // Edit comment
 router.delete("/comments/:id", authenticateUser, deleteComment); // Delete comment
-router.post("/upload", authenticateUser, multer().single("file"), uploadFile); // Upload file
+router.get("/discussions/:id", getDiscussionById); // Fetch a single discussion by ID
 
 export default router;

@@ -1,10 +1,7 @@
-import {
-  getAllDiscussions,
-  createDiscussion as createDiscussionInDB,
-  getCommentsByDiscussionId as fetchCommentsFromDB,
-  addComment,
-} from "../models/discussion.js";
+
 import db from "../db.js";
+
+
 
 // Fetch all discussions
 export const getDiscussions = (req, res) => {
@@ -29,17 +26,22 @@ export const createDiscussion = (req, res) => {
   const userId = req.user.id;
 
   if (!title || !content) {
-    return res.status(400).json({ error: "Title and content are required" });
+    return res.status(400).json({ error: "Title and content are required." });
   }
 
-  const query = "INSERT INTO discussionposts (user_id, title, content) VALUES (?, ?, ?)";
+  const query = `
+    INSERT INTO discussionposts (user_id, title, content, created_at)
+    VALUES (?, ?, ?, NOW())
+  `;
+
   db.query(query, [userId, title, content], (err, result) => {
     if (err) {
       console.error("Error creating discussion:", err.message);
-      return res.status(500).json({ error: "Failed to create discussion" });
+      return res.status(500).json({ error: "Failed to create discussion." });
     }
 
     const postId = result.insertId;
+
     const fetchQuery = `
       SELECT dp.id, dp.title, dp.content, dp.created_at, u.name AS author, dp.user_id
       FROM discussionposts dp
@@ -49,43 +51,87 @@ export const createDiscussion = (req, res) => {
     db.query(fetchQuery, [postId], (err, results) => {
       if (err) {
         console.error("Error fetching the new discussion:", err.message);
-        return res.status(500).json({ error: "Failed to fetch the new discussion" });
+        return res.status(500).json({ error: "Failed to fetch the new discussion." });
       }
       res.status(201).json(results[0]);
     });
   });
 };
 
-const handleCreatePost = async (newPost) => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await axios.post(
-      "http://localhost:5000/api/discussions",
-      newPost,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    setPosts((prevPosts) => [response.data, ...prevPosts]);
-  } catch (error) {
-    console.error("Error creating post:", error);
-  }
-};
 
 // Fetch comments for a discussion
 export const getCommentsByDiscussionId = (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Post ID
 
-  fetchCommentsFromDB(id, (err, comments) => {
+  const query = `
+    SELECT c.id, c.user_id, c.comment AS text, c.file_path, c.created_at, u.name AS user
+    FROM comments c
+    LEFT JOIN users u ON c.user_id = u.id
+    WHERE c.post_id = ?
+    ORDER BY c.created_at ASC
+  `;
+
+  db.query(query, [id], (err, results) => {
     if (err) {
       console.error("Error fetching comments:", err.message);
       return res.status(500).json({ error: "Failed to fetch comments" });
     }
-    res.status(200).json(comments);
+
+    console.log("Fetched comments:", results); // Debugging log
+    res.status(200).json(results);
+  });
+};
+
+export const getCommentsByPostId = (req, res) => {
+  const { id } = req.params; // Post ID
+
+  const query = `
+    SELECT c.id, c.user_id, c.comment AS text, c.file_path, c.created_at, u.name AS user
+    FROM comments c
+    LEFT JOIN users u ON c.user_id = u.id
+    WHERE c.post_id = ?
+    ORDER BY c.created_at ASC
+  `;
+
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      console.error("Error fetching comments:", err.message);
+      return res.status(500).json({ error: "Failed to fetch comments" });
+    }
+    res.status(200).json(results);
+  });
+};
+
+export const uploadDiscussionFile = (req, res) => {
+  console.log("Request body:", req.body); // Should contain title and content
+  console.log("Uploaded file:", req.file); // Should contain file details
+
+  const { title, content } = req.body;
+  const userId = req.user.id;
+  const filePath = req.file ? `/uploads/${req.file.filename}` : null;
+
+  if (!title || !content) {
+    return res.status(400).json({ error: "Title and content are required." });
+  }
+
+  const query = `
+    INSERT INTO discussionposts (user_id, title, content, file_path, created_at)
+    VALUES (?, ?, ?, ?, NOW())
+  `;
+
+  db.query(query, [userId, title, content, filePath], (err, result) => {
+    if (err) {
+      console.error("Error saving discussion to database:", err.message);
+      return res.status(500).json({ error: "Failed to save discussion." });
+    }
+
+    res.status(201).json({ message: "Discussion created successfully." });
   });
 };
 
 // Add a comment to a discussion
 export const addCommentToDiscussion = (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Discussion ID
   const { text } = req.body;
   const userId = req.user.id;
 
@@ -93,24 +139,27 @@ export const addCommentToDiscussion = (req, res) => {
     return res.status(400).json({ error: "Comment text is required" });
   }
 
-  addComment(id, userId, text, (err, result) => {
+  const insertQuery = `
+    INSERT INTO comments (post_id, user_id, comment, created_at)
+    VALUES (?, ?, ?, NOW())
+  `;
+
+  db.query(insertQuery, [id, userId, text], (err, result) => {
     if (err) {
       console.error("Error adding comment to database:", err.message);
       return res.status(500).json({ error: "Failed to add comment to database" });
     }
 
-    if (!result.insertId) {
-      return res.status(500).json({ error: "Failed to add comment" });
-    }
-
     const commentId = result.insertId;
-    const query = `
+
+    const fetchQuery = `
       SELECT c.id, c.user_id, c.comment AS text, c.created_at, u.name AS user
       FROM comments c
       JOIN users u ON c.user_id = u.id
       WHERE c.id = ?
     `;
-    db.query(query, [commentId], (err, results) => {
+
+    db.query(fetchQuery, [commentId], (err, results) => {
       if (err) {
         console.error("Error fetching the new comment:", err.message);
         return res.status(500).json({ error: "Failed to fetch the new comment" });
@@ -122,15 +171,20 @@ export const addCommentToDiscussion = (req, res) => {
 
 // Edit a comment
 export const editComment = (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; // Comment ID
   const { text } = req.body;
-  const userId = req.user.id;
+  const userId = req.user.id; // Authenticated user ID
 
   if (!text) {
     return res.status(400).json({ error: "Comment text is required" });
   }
 
-  const query = "UPDATE comments SET comment = ? WHERE id = ? AND user_id = ?";
+  const query = `
+    UPDATE comments
+    SET comment = ?
+    WHERE id = ? AND user_id = ?
+  `;
+
   db.query(query, [text, id, userId], (err, result) => {
     if (err) {
       console.error("Error updating comment:", err.message);
@@ -147,10 +201,14 @@ export const editComment = (req, res) => {
 
 // Delete a comment
 export const deleteComment = (req, res) => {
-  const { id } = req.params;
-  const userId = req.user.id;
+  const { id } = req.params; // Comment ID
+  const userId = req.user.id; // Authenticated user ID
 
-  const query = "DELETE FROM comments WHERE id = ? AND user_id = ?";
+  const query = `
+    DELETE FROM comments
+    WHERE id = ? AND user_id = ?
+  `;
+
   db.query(query, [id, userId], (err, result) => {
     if (err) {
       console.error("Error deleting comment:", err.message);
@@ -240,29 +298,27 @@ export const deleteDiscussion = (req, res) => {
   });
 };
 
-// File upload
-import multer from "multer";
+export const getDiscussionById = (req, res) => {
+  const { id } = req.params;
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
+  const query = `
+    SELECT dp.id, dp.title, dp.content, dp.file_path, dp.created_at, u.name AS author
+    FROM discussionposts dp
+    LEFT JOIN users u ON dp.user_id = u.id
+    WHERE dp.id = ?
+  `;
 
-export const upload = multer({ storage }).single("file");
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      console.error("Error fetching discussion:", err.message);
+      return res.status(500).json({ error: "Failed to fetch discussion" });
+    }
 
-export const uploadFile = (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: "No file uploaded" });
-  }
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Discussion not found" });
+    }
 
-  const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
-  if (!allowedTypes.includes(req.file.mimetype)) {
-    return res.status(400).json({ error: "Invalid file type. Only images are allowed." });
-  }
-
-  res.status(200).json({ filePath: `/uploads/${req.file.filename}` });
+    console.log("Fetched discussion:", results[0]); // Debugging log
+    res.status(200).json(results[0]);
+  });
 };

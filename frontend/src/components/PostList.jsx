@@ -1,48 +1,62 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/authContext";
+
 import PostDetail from "./PostDetail";
 import PostForm from "./PostForm";
+import axios from "axios";
 
 export default function PostList({ posts, onNewPost, setPosts }) {
-  const { user } = useContext(AuthContext); 
-  const [selectedPost, setSelectedPost] = useState(null); 
+  const { user } = useContext(AuthContext);
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [comments, setComments] = useState([]); // State to store comments for the selected post
 
   const handlePostUpdate = (updatedPost) => {
-    console.log("Updating Post in State:", updatedPost); 
     setPosts((prevPosts) =>
       prevPosts.map((post) =>
         post.id === updatedPost.id ? { ...post, ...updatedPost } : post
       )
     );
-    setSelectedPost(null); 
-    
+    setSelectedPost(null);
   };
 
   const handlePostDelete = (postId) => {
     setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
-    setSelectedPost(null); 
+    setSelectedPost(null);
+  };
+
+  const fetchComments = async (postId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/discussions/${postId}/comments`);
+      setComments(response.data); // Update the comments state
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+  const handlePostClick = (post) => {
+    setSelectedPost(post);
+    fetchComments(post.id); // Fetch comments for the selected post
   };
 
   return (
     <div className="space-y-4">
-      {/* Conditionally render the PostForm only if no post is selected */}
       {!selectedPost && <PostForm onNewPost={onNewPost} />}
 
       {selectedPost ? (
-        // Render PostDetail if a post is selected
         <PostDetail
           post={selectedPost}
-          onBack={() => setSelectedPost(null)} 
-          loggedInUserId={user?.id} 
-          onPostUpdate={handlePostUpdate} 
+          comments={comments} // Pass comments to PostDetail
+          onBack={() => setSelectedPost(null)}
+          loggedInUserId={user?.id}
+          onPostUpdate={handlePostUpdate}
           onPostDelete={handlePostDelete}
+          onCommentUpdate={() => fetchComments(selectedPost.id)} // Refresh comments
         />
       ) : (
-        // Render the list of posts
         posts.map((post) => (
           <div
             key={post.id}
-            onClick={() => setSelectedPost(post)} // Set the selected post
+            onClick={() => handlePostClick(post)} // Fetch comments when clicking on a post
             className="cursor-pointer p-4 bg-white shadow rounded hover:bg-gray-100 transition"
           >
             <h3 className="text-xl font-semibold">{post.title}</h3>

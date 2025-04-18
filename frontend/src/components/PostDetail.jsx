@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { motion, AnimatePresence } from "framer-motion";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 
@@ -11,6 +12,7 @@ export default function PostDetail({
   onPostDelete,
 }) {
   const [post, setPost] = useState(initialPost);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(post.title);
   const [editedContent, setEditedContent] = useState(post.content);
@@ -18,9 +20,8 @@ export default function PostDetail({
   const [comments, setComments] = useState([]); // Track comments
 
   // Fetch comments when the component mounts
-
   useEffect(() => {
-    console.log("Post object in PostDetail:", post); // Debugging log
+    console.log("Post ID in PostDetail:", post.id); // Debugging log
     fetchComments();
     fetchPostDetails();
   }, [post.id]);
@@ -168,14 +169,48 @@ export default function PostDetail({
               {[".jpg", ".jpeg", ".png", ".gif"].some((ext) =>
                 post.file_path.endsWith(ext)
               ) ? (
-                <img
-                  src={`http://localhost:5000${post.file_path}`}
-                  alt="Uploaded File"
-                  className="w-full h-auto rounded-lg shadow"
-                  onError={(e) =>
-                    console.error("Image failed to load:", e.target.src)
-                  }
-                />
+                <>
+                  {/* Clickable image */}
+                  <div
+                    className="cursor-pointer"
+                    onClick={() =>
+                      setSelectedImage(`http://localhost:5000${post.file_path}`)
+                    }
+                  >
+                    <img
+                      src={`http://localhost:5000${post.file_path}`}
+                      alt="Uploaded File"
+                      className="w-full max-w-[20%] h-auto rounded-lg shadow transition-transform"
+                      onError={(e) =>
+                        console.error("Image failed to load:", e.target.src)
+                      }
+                    />
+                  </div>
+
+                  {/* Fullscreen modal for the image */}
+                  {selectedImage && (
+                    <div
+                      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+                      aria-label="Fullscreen Image Modal"
+                    >
+                      {/* Clickable overlay to close the modal */}
+                      <div
+                        className="absolute inset-0"
+                        onClick={() => setSelectedImage(null)}
+                        aria-label="Close Image Modal"
+                      ></div>
+
+                      {/* Image container */}
+                      <div className="relative flex items-center justify-center">
+                        <img
+                          src={selectedImage}
+                          alt="Full Image"
+                          className="w-auto h-auto max-w-[40%] max-h-[70%] rounded-lg shadow-lg"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </>
               ) : (
                 <a
                   href={`http://localhost:5000${post.file_path}`}
@@ -188,7 +223,6 @@ export default function PostDetail({
               )}
             </div>
           )}
-
           <p className="text-sm text-gray-500 mb-4">
             Posted by {post.author || "Anonymous"} on{" "}
             {new Date(post.created_at).toLocaleString()}

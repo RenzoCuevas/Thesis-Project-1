@@ -23,6 +23,5 @@ router.get("/:id/comments", getCommentsByDiscussionId); // Fetch comments for a 
 router.post("/:id/comments", authenticateUser, addCommentToDiscussion); // Add a comment to a discussion
 router.put("/comments/:id", authenticateUser, editComment); // Edit comment
 router.delete("/comments/:id", authenticateUser, deleteComment); // Delete comment
-router.get("/discussions/:id", getDiscussionById); // Fetch a single discussion by ID
-
+router.get("/discussions/:id", getDiscussionById);
 export default router;

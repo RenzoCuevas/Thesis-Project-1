@@ -26,7 +26,9 @@ export default function PostList({ posts, onNewPost, setPosts }) {
 
   const fetchComments = async (postId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/discussions/${postId}/comments`);
+      const response = await axios.get(
+        `http://localhost:5000/api/discussions/${postId}/comments`
+      );
       setComments(response.data); // Update the comments state
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -34,6 +36,7 @@ export default function PostList({ posts, onNewPost, setPosts }) {
   };
 
   const handlePostClick = (post) => {
+    console.log("Selected Post:", post); // Debugging log
     setSelectedPost(post);
     fetchComments(post.id); // Fetch comments for the selected post
   };
@@ -44,13 +47,11 @@ export default function PostList({ posts, onNewPost, setPosts }) {
 
       {selectedPost ? (
         <PostDetail
-          post={selectedPost}
-          comments={comments} // Pass comments to PostDetail
+          post={selectedPost} // Ensure `selectedPost` contains the correct `id`
           onBack={() => setSelectedPost(null)}
           loggedInUserId={user?.id}
           onPostUpdate={handlePostUpdate}
           onPostDelete={handlePostDelete}
-          onCommentUpdate={() => fetchComments(selectedPost.id)} // Refresh comments
         />
       ) : (
         posts.map((post) => (
@@ -61,7 +62,8 @@ export default function PostList({ posts, onNewPost, setPosts }) {
           >
             <h3 className="text-xl font-semibold">{post.title}</h3>
             <p className="text-gray-600 text-sm">
-              {post.author || "Anonymous"} · {new Date(post.created_at).toLocaleString()}
+              {post.author || "Anonymous"} ·{" "}
+              {new Date(post.created_at).toLocaleString()}
             </p>
           </div>
         ))

@@ -318,7 +318,6 @@ export const getDiscussionById = (req, res) => {
       return res.status(404).json({ error: "Discussion not found" });
     }
 
-    console.log("Fetched discussion:", results[0]); // Debugging log
     res.status(200).json(results[0]);
   });
 };

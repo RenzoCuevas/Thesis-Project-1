@@ -13,6 +13,8 @@ export default function Navbar() {
     }
   }, [user]);
 
+  //<Link to="/register"><th className="p-4 hover:underline hover:bg-blue-900 transition duration-300">Register</th></Link>
+  //<Link to="/login"><th className="p-4 hover:underline hover:bg-blue-900 transition duration-300">Login</th></Link>
   return (
     <nav className="bg-blue-600 text-white flex justify-between items-center" id="navBar">
       <h1 className="px-4 text-2xl font-bold">LMS</h1>
@@ -22,8 +24,6 @@ export default function Navbar() {
           <Link to="/dashboard"><th className="p-4 hover:underline hover:bg-blue-900 transition duration-300">Dashboard</th></Link>
           <Link to="/assignments"> <th className="p-4 hover:underline hover:bg-blue-900 transition duration-300">Assignments</th></Link>
           <Link to="/upload"><th className="p-4 hover:underline hover:bg-blue-900 transition duration-300">Upload</th></Link> 
-          <Link to="/register"><th className="p-4 hover:underline hover:bg-blue-900 transition duration-300">Register</th></Link>
-          <Link to="/login"><th className="p-4 hover:underline hover:bg-blue-900 transition duration-300">Login</th></Link>
         </table>
       </div>
     </nav>

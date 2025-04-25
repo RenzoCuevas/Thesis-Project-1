@@ -5,6 +5,7 @@ import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import UploadPage from "./pages/uploadPage"
+import Assignments from "./pages/assignments"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/upload" element={<UploadPage />} />
+        <Route path="/assignments" element={<Assignments />} />
       </Routes>
     </div>
   );
